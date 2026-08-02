@@ -22,7 +22,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3001',
+        url: process.env.API_URL,
         description: 'Local Development Server',
       },
     ],

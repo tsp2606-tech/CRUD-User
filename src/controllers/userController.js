@@ -21,11 +21,25 @@ export const getDetail = async (req, res) => {
 };
 
 export const update = async (req, res) => {
-  const user = await userService.updateUser(req.params.id, req.body);
-  res.status(200).json(user);
+  try {
+    const user = await userService.updateUser(req.params.id, req.body);
+    if (!user) {
+      return res.status(404).json({ message: 'Người dùng không tồn tại (có thể đã bị xoá)' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 export const remove = async (req, res) => {
-  await userService.deleteUser(req.params.id);
-  res.status(200).json({ message: 'Đã xóa' });
+  try {
+    const user = await userService.deleteUser(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'Người dùng không tồn tại (có thể đã bị xoá)' });
+    }
+    res.status(200).json({ message: 'Đã xóa' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
